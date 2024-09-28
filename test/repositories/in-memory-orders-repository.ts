@@ -33,11 +33,11 @@ export class InMemoryOrdersRepository implements OrdersRepository {
   }
 
   async create(order: Order): Promise<void> {
-    this.items.push(order)
+    await this.items.push(order)
   }
 
   async delete(order: Order) {
-    this.items.filter((item) => {
+    this.items = await this.items.filter((item) => {
       return item.id !== order.id
     })
   }

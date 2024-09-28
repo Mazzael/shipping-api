@@ -45,6 +45,8 @@ export class CreateRecipientOrderUseCase {
 
     await this.ordersRepository.create(order)
 
+    recipient.orders.add(order)
+
     return right({ order })
   }
 }

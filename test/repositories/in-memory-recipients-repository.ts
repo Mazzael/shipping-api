@@ -27,4 +27,16 @@ export class InMemoryRecipientsRepository implements RecipientsRepository {
   async create(recipient: Recipient): Promise<void> {
     this.items.push(recipient)
   }
+
+  async save(recipient: Recipient): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id === recipient.id)
+
+    this.items[itemIndex] = recipient
+  }
+
+  async delete(recipient: Recipient): Promise<void> {
+    this.items = await this.items.filter((item) => {
+      return item.id !== recipient.id
+    })
+  }
 }

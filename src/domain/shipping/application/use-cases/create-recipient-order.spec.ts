@@ -37,5 +37,8 @@ describe('Create Recipient Order', () => {
     expect(result.isRight()).toBe(true)
     expect(inMemoryOrdersRepository.items).toHaveLength(1)
     expect(inMemoryOrdersRepository.items[0].items).toHaveLength(2)
+
+    // @ts-expect-error if it arrived here it, order property wont be undefined
+    expect(recipient.orders.getNewItems()[0]).toBe(result.value.order)
   })
 })

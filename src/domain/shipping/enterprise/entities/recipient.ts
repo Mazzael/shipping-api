@@ -1,14 +1,14 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-import { Order } from './order'
 import { Entity } from '@/core/entities/entity'
+import { OrderList } from './order-list'
 
 export interface RecipientProps {
   name: string
   email: string
   addressLatitude: number
   addressLongitude: number
-  orders: Order[]
+  orders: OrderList
   updatedAt?: Date | null
 }
 
@@ -37,18 +37,9 @@ export class Recipient extends Entity<RecipientProps> {
     this.props.updatedAt = new Date()
   }
 
-  set addressLatitude(addressLatitude: number) {
+  changeAddress(addressLatitude: number, addressLongitude: number) {
     this.props.addressLatitude = addressLatitude
-    this.touch()
-  }
-
-  set addressLongitude(addressLongitude: number) {
     this.props.addressLongitude = addressLongitude
-    this.touch()
-  }
-
-  set orders(orders: Order[]) {
-    this.props.orders = orders
     this.touch()
   }
 
@@ -59,7 +50,7 @@ export class Recipient extends Entity<RecipientProps> {
     const recipient = new Recipient(
       {
         ...props,
-        orders: props.orders ?? [],
+        orders: props.orders ?? new OrderList(),
       },
       id,
     )

@@ -46,11 +46,6 @@ export class Deliveryman extends Entity<DeliverymanProps> {
     this.touch()
   }
 
-  set orders(orders: OrderList) {
-    this.props.orders = orders
-    this.touch()
-  }
-
   static create(
     props: Optional<DeliverymanProps, 'orders' | 'createdAt'>,
     id?: UniqueEntityID,
