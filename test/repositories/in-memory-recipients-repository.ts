@@ -1,5 +1,10 @@
-import { RecipientsRepository } from '@/domain/shipping/application/repositories/recipients-repository'
+import {
+  FindManyNearbyParams,
+  RecipientsRepository,
+} from '@/domain/shipping/application/repositories/recipients-repository'
+import { Order } from '@/domain/shipping/enterprise/entities/order'
 import { Recipient } from '@/domain/shipping/enterprise/entities/recipient'
+import { getDistanceBetweenCoordinates } from 'test/utils/get-distance-between-coordinates'
 
 export class InMemoryRecipientsRepository implements RecipientsRepository {
   public items: Recipient[] = []
@@ -22,6 +27,33 @@ export class InMemoryRecipientsRepository implements RecipientsRepository {
     }
 
     return recipient
+  }
+
+  async findManyNearby({ latitude, longitude }: FindManyNearbyParams) {
+    const nearbyOrders: Order[] = []
+
+    const nearbyRecipients = this.items.filter((item) => {
+      const distance = getDistanceBetweenCoordinates(
+        {
+          latitude,
+          longitude,
+        },
+        {
+          latitude: item.addressLatitude,
+          longitude: item.addressLongitude,
+        },
+      )
+
+      return distance < 10
+    })
+
+    nearbyRecipients.forEach((recipient) => {
+      recipient.orders.currentItems.forEach((order) => {
+        nearbyOrders.push(order)
+      })
+    })
+
+    return nearbyOrders
   }
 
   async create(recipient: Recipient): Promise<void> {
