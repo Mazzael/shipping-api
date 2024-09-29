@@ -1,4 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { OrdersRepository } from '@/domain/shipping/application/repositories/orders-repository'
 import { Order } from '@/domain/shipping/enterprise/entities/order'
@@ -34,6 +35,8 @@ export class InMemoryOrdersRepository implements OrdersRepository {
 
   async create(order: Order): Promise<void> {
     await this.items.push(order)
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
   async delete(order: Order) {

@@ -5,6 +5,8 @@ import { Injectable } from '@nestjs/common'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { DeliverymansRepository } from '../repositories/deliveryman-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { DomainEvents } from '@/core/events/domain-events'
+import { OrderPickedUpEvent } from '../../enterprise/events/order-picked-up-event'
 
 interface PickUpOrderUseCaseRequest {
   orderId: string
@@ -47,6 +49,8 @@ export class PickUpOrderUseCase {
     deliveryman.orders.add(order)
 
     order.pickUpOrder()
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
 
     return right({ order })
   }
