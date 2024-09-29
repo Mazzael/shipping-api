@@ -25,9 +25,15 @@ describe('Create Recipient Order', () => {
 
     await inMemoryRecipientsRepository.create(recipient)
 
-    const item1 = makeOrderItem()
+    const item1 = makeOrderItem({
+      price: 10,
+      quantity: 1,
+    })
 
-    const item2 = makeOrderItem()
+    const item2 = makeOrderItem({
+      price: 25,
+      quantity: 2,
+    })
 
     const result = await sut.execute({
       recipientId: recipient.id.toString(),
@@ -35,6 +41,7 @@ describe('Create Recipient Order', () => {
     })
 
     expect(result.isRight()).toBe(true)
+    expect(inMemoryOrdersRepository.items[0].totalInCents).toBe(60)
     expect(inMemoryOrdersRepository.items).toHaveLength(1)
     expect(inMemoryOrdersRepository.items[0].items).toHaveLength(2)
 

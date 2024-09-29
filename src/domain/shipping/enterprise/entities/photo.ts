@@ -5,6 +5,7 @@ export interface PhotoProps {
   title: string
   url: string
   orderId?: UniqueEntityID
+  createdAt: Date
 }
 
 export class Photo extends Entity<PhotoProps> {

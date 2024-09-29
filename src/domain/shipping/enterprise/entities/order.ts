@@ -12,6 +12,7 @@ export interface OrderProps {
   recipientId: UniqueEntityID
   deliverymanId?: UniqueEntityID
   status: OrderStatus
+  totalInCents: number
   items: OrderItem[]
   createdAt: Date
   updatedAt?: Date
@@ -32,6 +33,10 @@ export class Order extends AggregateRoot<OrderProps> {
 
   get items() {
     return this.props.items
+  }
+
+  get totalInCents() {
+    return this.props.totalInCents
   }
 
   get createdAt() {

@@ -9,6 +9,7 @@ export interface RecipientProps {
   addressLatitude: number
   addressLongitude: number
   orders: OrderList
+  createdAt: Date
   updatedAt?: Date | null
 }
 
@@ -44,12 +45,13 @@ export class Recipient extends Entity<RecipientProps> {
   }
 
   static create(
-    props: Optional<RecipientProps, 'orders'>,
+    props: Optional<RecipientProps, 'createdAt' | 'orders'>,
     id?: UniqueEntityID,
   ) {
     const recipient = new Recipient(
       {
         ...props,
+        createdAt: props.createdAt ?? new Date(),
         orders: props.orders ?? new OrderList(),
       },
       id,

@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  DELIVERYMAN
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PICKED_UP
+  DELIVERED
+  RETURNED
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  cpf       String    @unique
+  password  String
+  role      UserRole  @default(DELIVERYMAN)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  Order     Order[]
+
+  @@map("users")
+}
+
+model Recipient {
+  id               String    @id @default(uuid())
+  name             String
+  email            String    @unique
+  addressLatitude  Decimal   @map("address_latitude")
+  addressLongitude Decimal   @map("address_longitude")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime? @map("updated_at")
+  Order            Order[]
+
+  @@map("recipients")
+}
+
+model Order {
+  id             String      @id @default(uuid())
+  userId         String      @map("user_id")
+  recipientId    String      @map("recipient_id")
+  status         OrderStatus @default(PENDING)
+  total_in_cents Int         @map("total_in_cents")
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime?   @map("updated_at")
+
+  user       User         @relation(fields: [userId], references: [id])
+  recipient  Recipient    @relation(fields: [recipientId], references: [id])
+  Photo      Photo[]
+  OrderItems OrderItems[]
+
+  @@map("orders")
+}
+
+model Item {
+  id           String       @id @default(uuid())
+  productName  String       @map("product_name")
+  priceInCents Int          @map("price_in_cents")
+  OrderItems   OrderItems[]
+}
+
+model OrderItems {
+  id           String @id @default(uuid())
+  orderId      String @map("order_id")
+  itemId       String @map("item_id")
+  quantity     String
+  priceInCents Int    @map("price_in_cents")
+
+  order Order @relation(fields: [orderId], references: [id])
+  item  Item  @relation(fields: [itemId], references: [id])
+}
+
+model Photo {
+  id        String   @id @default(uuid())
+  orderId   String   @map("order_id")
+  url       String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("photos")
+}

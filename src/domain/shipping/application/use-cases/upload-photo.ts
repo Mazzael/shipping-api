@@ -43,6 +43,7 @@ export class UploadPhotoUseCase {
     const photo = Photo.create({
       title: fileName,
       url,
+      createdAt: new Date(),
     })
 
     await this.photosRepository.create(photo)

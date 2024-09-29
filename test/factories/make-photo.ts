@@ -11,6 +11,7 @@ export function makePhoto(
     {
       title: faker.lorem.slug(),
       url: faker.lorem.slug(),
+      createdAt: faker.date.recent(),
       ...override,
     },
     id,

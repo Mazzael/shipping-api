@@ -39,6 +39,9 @@ export class CreateRecipientOrderUseCase {
     const order = Order.create({
       recipientId: new UniqueEntityID(recipientId),
       items,
+      totalInCents: items.reduce((acc, item) => {
+        return acc + item.price * item.quantity
+      }, 0),
       status: 'PENDING',
       createdAt: new Date(),
     })
