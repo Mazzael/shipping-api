@@ -5,6 +5,7 @@ import { PhotosRepository } from '../repositories/photos-repository'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { DomainEvents } from '@/core/events/domain-events'
 
 interface DeliverOrderUseCaseRequest {
   deliverymanId: string
@@ -45,6 +46,10 @@ export class DeliverOrderUseCase {
     photo.orderId = new UniqueEntityID(orderId)
 
     order.deliverOrder()
+
+    await this.ordersRepository.save(order)
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
 
     return right({ order })
   }

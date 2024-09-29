@@ -3,6 +3,7 @@ import { NotAllowedError } from './errors/not-allowed-error'
 import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { DomainEvents } from '@/core/events/domain-events'
 
 interface ReturnOrderUseCaseRequest {
   deliverymanId: string
@@ -34,6 +35,10 @@ export class ReturnOrderUseCase {
     }
 
     order.returnOrder()
+
+    await this.ordersRepository.save(order)
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
 
     return right({ order })
   }

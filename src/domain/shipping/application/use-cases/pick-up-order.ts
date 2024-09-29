@@ -50,6 +50,8 @@ export class PickUpOrderUseCase {
 
     order.pickUpOrder()
 
+    await this.ordersRepository.save(order)
+
     DomainEvents.dispatchEventsForAggregate(order.id)
 
     return right({ order })

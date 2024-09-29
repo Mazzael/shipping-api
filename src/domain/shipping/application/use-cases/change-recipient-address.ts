@@ -34,6 +34,8 @@ export class ChangeRecipientAddressUseCase {
 
     recipient.changeAddress(addressLatitude, addressLongitude)
 
+    await this.recipientsRepository.save(recipient)
+
     return right({ recipient })
   }
 }

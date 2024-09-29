@@ -16,7 +16,7 @@ Shipping Company API Clean
 - [x] It should be possible to list orders with delivery addresses near the delivery personnel's location.
 - [x] It should be possible to change a user's password.
 - [x] It should be possible to list a user's deliveries.
-- [ ] Recipients should be notified for each change in the order status.
+- [x] Recipients should be notified for each change in the order status.
 
 ## BRs (Business Rules)
 

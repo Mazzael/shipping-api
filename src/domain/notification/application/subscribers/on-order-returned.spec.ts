@@ -5,20 +5,20 @@ import {
 } from '../use-cases/send-notification'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
 import { MockInstance, vi } from 'vitest'
-import { makeRecipient } from 'test/factories/make-recipient'
-import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository'
+import { makeOrder } from 'test/factories/make-order'
+import { makeDeliveryman } from 'test/factories/make-deliveryman'
+import { InMemoryDeliverymansRepository } from 'test/repositories/in-memory-deliverymans-repository'
 import { InMemoryOrdersRepository } from 'test/repositories/in-memory-orders-repository'
 import { waitFor } from 'test/utils/wait-for'
-import { CreateRecipientOrderUseCase } from '@/domain/shipping/application/use-cases/create-recipient-order'
-import { makeOrderItem } from 'test/factories/make-order-item'
-import { OnOrderCreated } from './on-order-created'
+import { OnOrderReturned } from './on-order-returned'
+import { ReturnOrderUseCase } from '@/domain/shipping/application/use-cases/return-order'
 
 let inMemoryOrdersRepository: InMemoryOrdersRepository
-let inMemoryRecipientsRepository: InMemoryRecipientsRepository
+let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository
 let sendNotification: SendNotificationUseCase
 
-let createRecipientOrderUseCase: CreateRecipientOrderUseCase
+let returnOrderUseCase: ReturnOrderUseCase
 
 let sendNotificationExecuteSpy: MockInstance<
   [SendNotificationUseCaseRequest],
@@ -28,32 +28,31 @@ let sendNotificationExecuteSpy: MockInstance<
 describe('On Order Picked Up', () => {
   beforeEach(() => {
     inMemoryOrdersRepository = new InMemoryOrdersRepository()
-    inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
+    inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
     sendNotification = new SendNotificationUseCase(
       inMemoryNotificationsRepository,
     )
 
-    createRecipientOrderUseCase = new CreateRecipientOrderUseCase(
-      inMemoryOrdersRepository,
-      inMemoryRecipientsRepository,
-    )
+    returnOrderUseCase = new ReturnOrderUseCase(inMemoryOrdersRepository)
 
     sendNotificationExecuteSpy = vi.spyOn(sendNotification, 'execute')
 
-    new OnOrderCreated(sendNotification)
+    new OnOrderReturned(sendNotification)
   })
 
-  it('should send a notification when an order is created', async () => {
-    const recipient = makeRecipient()
-    const item1 = makeOrderItem()
-    const item2 = makeOrderItem()
+  it('should send a notification when an order is returned', async () => {
+    const deliveryman = makeDeliveryman()
+    const order = makeOrder({
+      deliverymanId: deliveryman.id,
+    })
 
-    await inMemoryRecipientsRepository.create(recipient)
+    await inMemoryOrdersRepository.create(order)
+    await inMemoryDeliverymansRepository.create(deliveryman)
 
-    createRecipientOrderUseCase.execute({
-      recipientId: recipient.id.toString(),
-      items: [item1, item2],
+    returnOrderUseCase.execute({
+      orderId: order.id.toString(),
+      deliverymanId: deliveryman.id.toString(),
     })
 
     await waitFor(() => {

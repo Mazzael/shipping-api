@@ -21,7 +21,7 @@ export class OnOrderPickUp implements EventHandler {
     await this.sendNotification.execute({
       recipientId: order.recipientId.toString(),
       title: 'Order picked up',
-      content: `Your order with these items: ${order.items} has been picked up`,
+      content: `Your order with these items: ${order.items} has been picked up!`,
     })
   }
 }

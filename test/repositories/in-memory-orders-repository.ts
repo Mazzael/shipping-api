@@ -39,6 +39,12 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
+  async save(order: Order): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id === order.id)
+
+    this.items[itemIndex] = order
+  }
+
   async delete(order: Order) {
     this.items = await this.items.filter((item) => {
       return item.id !== order.id

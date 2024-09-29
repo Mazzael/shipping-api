@@ -3,6 +3,8 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { OrderItem } from './order-item'
 import { OrderPickedUpEvent } from '../events/order-picked-up-event'
 import { OrderCreatedEvent } from '../events/order-created-event'
+import { OrderDeliveredEvent } from '../events/order-delivered-event'
+import { OrderReturnedEvent } from '../events/order-returned-event'
 
 export type OrderStatus = 'PENDING' | 'DELIVERED' | 'RETURNED' | 'PICKED-UP'
 
@@ -52,11 +54,13 @@ export class Order extends AggregateRoot<OrderProps> {
 
   deliverOrder() {
     this.props.status = 'DELIVERED'
+    this.addDomainEvent(new OrderDeliveredEvent(this))
     this.touch()
   }
 
   returnOrder() {
     this.props.status = 'RETURNED'
+    this.addDomainEvent(new OrderReturnedEvent(this))
     this.touch()
   }
 
