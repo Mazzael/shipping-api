@@ -33,7 +33,7 @@ export class DeliverOrderUseCase {
   }: DeliverOrderUseCaseRequest): Promise<DeliverOrderUseCaseResponse> {
     const order = await this.ordersRepository.findById(orderId)
 
-    if (!order) {
+    if (!order || !order.deliverymanId) {
       return left(new ResourceNotFoundError())
     }
 
@@ -42,6 +42,10 @@ export class DeliverOrderUseCase {
     }
 
     const photo = await this.photosRepository.findById(photoId)
+
+    if (!photo) {
+      return left(new ResourceNotFoundError())
+    }
 
     photo.orderId = new UniqueEntityID(orderId)
 

@@ -38,5 +38,9 @@ lerna-debug.log*
 .env
 .env.test
 
+# Keys
+private_key.pem
+public_key.pem
+
 # Docker
 data

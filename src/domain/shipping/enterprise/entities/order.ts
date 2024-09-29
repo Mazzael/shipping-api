@@ -23,8 +23,8 @@ export class Order extends AggregateRoot<OrderProps> {
     return this.props.recipientId
   }
 
-  get deliverymanId() {
-    return this.props.deliverymanId
+  get deliverymanId(): UniqueEntityID | null {
+    return this.props.deliverymanId ?? null
   }
 
   get status() {

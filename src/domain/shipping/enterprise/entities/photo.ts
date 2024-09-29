@@ -17,8 +17,8 @@ export class Photo extends Entity<PhotoProps> {
     return this.props.url
   }
 
-  get orderId() {
-    return this.props.orderId
+  get orderId(): UniqueEntityID | null {
+    return this.props.orderId ?? null
   }
 
   set orderId(id: UniqueEntityID) {

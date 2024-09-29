@@ -26,7 +26,7 @@ export class ReturnOrderUseCase {
   }: ReturnOrderUseCaseRequest): Promise<ReturnOrderUseCaseResponse> {
     const order = await this.ordersRepository.findById(orderId)
 
-    if (!order) {
+    if (!order || !order.deliverymanId) {
       return left(new ResourceNotFoundError())
     }
 

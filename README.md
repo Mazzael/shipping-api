@@ -4,7 +4,7 @@ Shipping Company API Clean
 
 ## FRs (Functional Requirements)
 
-- [ ] The application must have two types of users, delivery personnel, and/or admin.
+- [x] The application must have two types of users, delivery personnel, and/or admin.
 - [x] It should be possible to log in with a CPF (Brazilian Individual Taxpayer Registry) and password.
 - [x] CRUD operations should be available for delivery personnel.
 - [x] CRUD operations should be available for orders.
