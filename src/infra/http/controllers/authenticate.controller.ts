@@ -3,6 +3,7 @@ import { PrismaService } from '../../database/prisma/prisma.service'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { JwtService } from '@nestjs/jwt'
+import { Public } from '@/infra/auth/public'
 
 const authenticateBodySchema = z.object({
   cpf: z.string(),
@@ -11,6 +12,7 @@ const authenticateBodySchema = z.object({
 
 type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
 @Controller('/auth')
+@Public()
 export class AuthenticateController {
   constructor(private jwt: JwtService) {}
 
