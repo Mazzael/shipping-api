@@ -55,7 +55,7 @@ export class PrismaRecipientsRepository implements RecipientsRepository {
   }: FindManyNearbyParams): Promise<Order[]> {
     const prismaRecipients = await this.prisma.$queryRaw<PrismaRecipient[]>`
       SELECT * from recipients
-      WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
+      WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( ${latitude} ) ) ) ) <= 10
     `
 
     const recipients = prismaRecipients.map((prismaRecipient) => {
