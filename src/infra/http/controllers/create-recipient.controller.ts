@@ -1,7 +1,15 @@
-import { Body, Controller, Post, UsePipes } from '@nestjs/common'
+import {
+  Body,
+  ConflictException,
+  Controller,
+  Post,
+  UsePipes,
+} from '@nestjs/common'
 import { PrismaService } from '../../database/prisma/prisma.service'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { CreateRecipientUseCase } from '@/domain/shipping/application/use-cases/create-recipient'
+import { Public } from '@/infra/auth/public'
 
 const createRecipientBodySchema = z.object({
   name: z.string(),
@@ -12,12 +20,27 @@ const createRecipientBodySchema = z.object({
 
 type CreateRecipientBodySchema = z.infer<typeof createRecipientBodySchema>
 @Controller('/recipient')
+@Public()
 export class CreateRecipientController {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private createRecipientUseCase: CreateRecipientUseCase,
+  ) {}
 
   @Post()
   @UsePipes(new ZodValidationPipe(createRecipientBodySchema))
   async handle(@Body() body: CreateRecipientBodySchema) {
     const { name, email, addressLatitude, addressLongitude } = body
+
+    const result = await this.createRecipientUseCase.execute({
+      name,
+      email,
+      addressLatitude,
+      addressLongitude,
+    })
+
+    if (result.isLeft()) {
+      throw new ConflictException(result.value.message)
+    }
   }
 }

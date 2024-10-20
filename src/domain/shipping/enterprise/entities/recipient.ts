@@ -34,6 +34,14 @@ export class Recipient extends Entity<RecipientProps> {
     return this.props.orders
   }
 
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }

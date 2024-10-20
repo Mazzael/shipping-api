@@ -9,7 +9,7 @@ import { getDistanceBetweenCoordinates } from 'test/utils/get-distance-between-c
 export class InMemoryRecipientsRepository implements RecipientsRepository {
   public items: Recipient[] = []
 
-  async findById(id: string): Promise<Recipient> {
+  async findById(id: string): Promise<Recipient | null> {
     const recipient = this.items.find((item) => item.id.toString() === id)
 
     if (!recipient) {
@@ -19,7 +19,7 @@ export class InMemoryRecipientsRepository implements RecipientsRepository {
     return recipient
   }
 
-  async findByEmail(email: string): Promise<Recipient> {
+  async findByEmail(email: string): Promise<Recipient | null> {
     const recipient = this.items.find((item) => item.email.toString() === email)
 
     if (!recipient) {
