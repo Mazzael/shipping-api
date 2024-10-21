@@ -25,6 +25,7 @@ describe('Create Delivery Personnel', () => {
       name: 'John Doe',
       cpf: '11111111111',
       password: '123456',
+      role: 'delivery-personnel',
     })
 
     expect(result.isRight()).toBe(true)
@@ -38,6 +39,7 @@ describe('Create Delivery Personnel', () => {
       name: 'John Doe',
       cpf: '11111111111',
       password: '123456',
+      role: 'delivery-personnel',
     })
 
     const hashedPassword = await fakeHasher.hash('123456')
@@ -58,6 +60,7 @@ describe('Create Delivery Personnel', () => {
       name: 'John Doe',
       cpf: '11111111111',
       password: '123456',
+      role: 'delivery-personnel',
     })
 
     expect(result.isLeft()).toBe(true)

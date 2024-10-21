@@ -7,6 +7,7 @@ export interface DeliverymanProps {
   name: string
   cpf: string
   password: string
+  role: 'admin' | 'delivery-personnel'
   orders: OrderList
   createdAt: Date
   updatedAt?: Date | null
@@ -23,6 +24,10 @@ export class Deliveryman extends Entity<DeliverymanProps> {
 
   get password() {
     return this.props.password
+  }
+
+  get role() {
+    return this.props.role
   }
 
   get orders() {
@@ -55,6 +60,7 @@ export class Deliveryman extends Entity<DeliverymanProps> {
         ...props,
         orders: props.orders ?? new OrderList(),
         createdAt: props.createdAt ?? new Date(),
+        role: props.role ?? 'delivery-personnel',
       },
       id,
     )

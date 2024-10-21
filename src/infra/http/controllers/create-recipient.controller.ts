@@ -5,7 +5,6 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common'
-import { PrismaService } from '../../database/prisma/prisma.service'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { CreateRecipientUseCase } from '@/domain/shipping/application/use-cases/create-recipient'
@@ -22,10 +21,7 @@ type CreateRecipientBodySchema = z.infer<typeof createRecipientBodySchema>
 @Controller('/recipient')
 @Public()
 export class CreateRecipientController {
-  constructor(
-    private prisma: PrismaService,
-    private createRecipientUseCase: CreateRecipientUseCase,
-  ) {}
+  constructor(private createRecipientUseCase: CreateRecipientUseCase) {}
 
   @Post()
   @UsePipes(new ZodValidationPipe(createRecipientBodySchema))

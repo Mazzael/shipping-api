@@ -1,9 +1,14 @@
-import { Body, Controller, Post, UsePipes } from '@nestjs/common'
-import { PrismaService } from '../../database/prisma/prisma.service'
+import {
+  Body,
+  Controller,
+  Post,
+  UnauthorizedException,
+  UsePipes,
+} from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { JwtService } from '@nestjs/jwt'
 import { Public } from '@/infra/auth/public'
+import { AuthenticateDeliverymanUseCase } from '@/domain/shipping/application/use-cases/authenticate-delivery-personnel'
 
 const authenticateBodySchema = z.object({
   cpf: z.string(),
@@ -14,15 +19,26 @@ type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
 @Controller('/auth')
 @Public()
 export class AuthenticateController {
-  constructor(private jwt: JwtService) {}
+  constructor(private authenticate: AuthenticateDeliverymanUseCase) {}
 
   @Post()
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
   async handle(@Body() body: AuthenticateBodySchema) {
     const { cpf, password } = body
 
-    const token = this.jwt.sign({ sub: 'user-id' })
+    const result = await this.authenticate.execute({
+      cpf,
+      password,
+    })
 
-    return token
+    if (result.isLeft()) {
+      throw new UnauthorizedException(result.value.message)
+    }
+
+    const { accessToken } = result.value
+
+    return {
+      accessToken,
+    }
   }
 }

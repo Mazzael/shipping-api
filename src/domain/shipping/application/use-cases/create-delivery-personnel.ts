@@ -9,6 +9,7 @@ interface CreateDeliverymanUseCaseRequest {
   name: string
   cpf: string
   password: string
+  role: 'admin' | 'delivery-personnel'
 }
 
 type CreateDeliverymanUseCaseResponse = Either<
@@ -29,6 +30,7 @@ export class CreateDeliverymanUseCase {
     name,
     cpf,
     password,
+    role,
   }: CreateDeliverymanUseCaseRequest): Promise<CreateDeliverymanUseCaseResponse> {
     const deliverymanWithSameCPF =
       await this.deliverymansRepository.findByCPF(cpf)
@@ -43,6 +45,7 @@ export class CreateDeliverymanUseCase {
       name,
       cpf,
       password: hashedPassword,
+      role,
     })
 
     await this.deliverymansRepository.create(deliveryman)
