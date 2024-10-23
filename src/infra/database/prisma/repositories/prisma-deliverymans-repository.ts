@@ -12,7 +12,9 @@ export class PrismaDeliverymansRepository implements DeliverymansRepository {
     const data = PrismaDeliverymanMapper.toPrisma(deliveryman)
 
     await this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+      },
     })
   }
 
@@ -34,6 +36,7 @@ export class PrismaDeliverymansRepository implements DeliverymansRepository {
     const deliveryman = await this.prisma.user.findUnique({
       where: {
         cpf,
+        role: 'DELIVERYMAN',
       },
     })
 

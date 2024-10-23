@@ -3,14 +3,14 @@ import { Injectable } from '@nestjs/common'
 import { HashComparer } from '../cryptography/hash-comparer'
 import { Encrypter } from '../cryptography/encrypter'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
-import { DeliverymansRepository } from '../repositories/deliveryman-repository'
+import { AdminsRepository } from '../repositories/admins-repository'
 
-interface AuthenticateDeliverymanUseCaseRequest {
+interface AuthenticateAdminUseCaseRequest {
   cpf: string
   password: string
 }
 
-type AuthenticateDeliverymanUseCaseResponse = Either<
+type AuthenticateAdminUseCaseResponse = Either<
   WrongCredentialsError,
   {
     accessToken: string
@@ -18,9 +18,9 @@ type AuthenticateDeliverymanUseCaseResponse = Either<
 >
 
 @Injectable()
-export class AuthenticateDeliverymanUseCase {
+export class AuthenticateAdminUseCase {
   constructor(
-    private deliverymansRepository: DeliverymansRepository,
+    private adminsRepository: AdminsRepository,
     private hashComparer: HashComparer,
     private encrypter: Encrypter,
   ) {}
@@ -28,16 +28,16 @@ export class AuthenticateDeliverymanUseCase {
   async execute({
     cpf,
     password,
-  }: AuthenticateDeliverymanUseCaseRequest): Promise<AuthenticateDeliverymanUseCaseResponse> {
-    const deliveryman = await this.deliverymansRepository.findByCPF(cpf)
+  }: AuthenticateAdminUseCaseRequest): Promise<AuthenticateAdminUseCaseResponse> {
+    const admin = await this.adminsRepository.findByCPF(cpf)
 
-    if (!deliveryman) {
+    if (!admin) {
       return left(new WrongCredentialsError())
     }
 
     const isPasswordValid = await this.hashComparer.compare(
       password,
-      deliveryman.password,
+      admin.password,
     )
 
     if (!isPasswordValid) {
@@ -45,8 +45,8 @@ export class AuthenticateDeliverymanUseCase {
     }
 
     const accessToken = await this.encrypter.encrypt({
-      sub: deliveryman.id.toString(),
-      role: 'deliveryman',
+      sub: admin.id.toString(),
+      role: 'admin',
     })
 
     return right({ accessToken })

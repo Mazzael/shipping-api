@@ -1,18 +1,16 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { OrderList } from './order-list'
 import { Optional } from '@/core/types/optional'
 import { Entity } from '@/core/entities/entity'
 
-export interface DeliverymanProps {
+export interface AdminProps {
   name: string
   cpf: string
   password: string
-  orders: OrderList
   createdAt: Date
   updatedAt?: Date | null
 }
 
-export class Deliveryman extends Entity<DeliverymanProps> {
+export class Admin extends Entity<AdminProps> {
   get name() {
     return this.props.name
   }
@@ -23,10 +21,6 @@ export class Deliveryman extends Entity<DeliverymanProps> {
 
   get password() {
     return this.props.password
-  }
-
-  get orders() {
-    return this.props.orders
   }
 
   get createdAt() {
@@ -46,19 +40,15 @@ export class Deliveryman extends Entity<DeliverymanProps> {
     this.touch()
   }
 
-  static create(
-    props: Optional<DeliverymanProps, 'orders' | 'createdAt'>,
-    id?: UniqueEntityID,
-  ) {
-    const deliveryman = new Deliveryman(
+  static create(props: Optional<AdminProps, 'createdAt'>, id?: UniqueEntityID) {
+    const admin = new Admin(
       {
         ...props,
-        orders: props.orders ?? new OrderList(),
         createdAt: props.createdAt ?? new Date(),
       },
       id,
     )
 
-    return deliveryman
+    return admin
   }
 }

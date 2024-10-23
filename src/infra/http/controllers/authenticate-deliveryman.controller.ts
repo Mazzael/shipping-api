@@ -18,15 +18,17 @@ const authenticateBodySchema = z.object({
 type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
 @Controller('/auth')
 @Public()
-export class AuthenticateController {
-  constructor(private authenticate: AuthenticateDeliverymanUseCase) {}
+export class AuthenticateDeliverymanController {
+  constructor(
+    private authenticateDeliveryman: AuthenticateDeliverymanUseCase,
+  ) {}
 
   @Post()
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
   async handle(@Body() body: AuthenticateBodySchema) {
     const { cpf, password } = body
 
-    const result = await this.authenticate.execute({
+    const result = await this.authenticateDeliveryman.execute({
       cpf,
       password,
     })

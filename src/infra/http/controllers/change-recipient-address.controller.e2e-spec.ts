@@ -5,40 +5,41 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
-import { DeliverymanFactory } from 'test/factories/make-deliveryman'
+import { AdminFactory } from 'test/factories/make-admin'
 import { RecipientFactory } from 'test/factories/make-recipient'
 
 describe('Change Recipient Address (E2E)', () => {
   let app: INestApplication
   let recipientFactory: RecipientFactory
-  let deliverymanFactory: DeliverymanFactory
+  let adminFactory: AdminFactory
   let prisma: PrismaService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [RecipientFactory, DeliverymanFactory],
+      providers: [RecipientFactory, AdminFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
 
     recipientFactory = moduleRef.get(RecipientFactory)
-    deliverymanFactory = moduleRef.get(DeliverymanFactory)
+    adminFactory = moduleRef.get(AdminFactory)
     prisma = moduleRef.get(PrismaService)
 
     await app.init()
   })
 
   test('[PATCH] /recipient', async () => {
-    const admin = await deliverymanFactory.makePrismaDeliveryman({
+    const admin = await adminFactory.makePrismaAdmin({
       password: await hash('123456', 8),
-      role: 'admin',
     })
 
-    const authResponse = await request(app.getHttpServer()).post('/auth').send({
-      cpf: admin.cpf,
-      password: '123456',
-    })
+    const authResponse = await request(app.getHttpServer())
+      .post('/admin/auth')
+      .send({
+        cpf: admin.cpf,
+        password: '123456',
+      })
 
     const { accessToken } = authResponse.body
 

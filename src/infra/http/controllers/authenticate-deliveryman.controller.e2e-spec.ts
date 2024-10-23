@@ -6,7 +6,7 @@ import { hash } from 'bcryptjs'
 import request from 'supertest'
 import { DeliverymanFactory } from 'test/factories/make-deliveryman'
 
-describe('Auth (E2E)', () => {
+describe('Auth deliveryman (E2E)', () => {
   let app: INestApplication
   let deliverymanFactory: DeliverymanFactory
 
@@ -25,7 +25,6 @@ describe('Auth (E2E)', () => {
 
   test('[POST] /auth', async () => {
     const deliveryman = await deliverymanFactory.makePrismaDeliveryman({
-      role: 'delivery-personnel',
       password: await hash('123456', 8),
     })
 

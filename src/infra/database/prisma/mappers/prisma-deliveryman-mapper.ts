@@ -9,7 +9,6 @@ export class PrismaDeliverymanMapper {
         name: raw.name,
         cpf: raw.cpf,
         password: raw.password,
-        role: raw.role === 'ADMIN' ? 'admin' : 'delivery-personnel',
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -23,7 +22,7 @@ export class PrismaDeliverymanMapper {
       cpf: deliveryman.cpf,
       name: deliveryman.name,
       password: deliveryman.password,
-      role: deliveryman.role === 'admin' ? 'ADMIN' : 'DELIVERYMAN',
+      role: 'DELIVERYMAN',
       createdAt: deliveryman.createdAt,
       updatedAt: deliveryman.updatedAt ?? null,
     }

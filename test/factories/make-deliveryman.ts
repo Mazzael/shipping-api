@@ -17,7 +17,6 @@ export function makeDeliveryman(
       name: faker.person.fullName(),
       cpf: faker.internet.userName(),
       password: faker.internet.password(),
-      role: 'delivery-personnel',
       ...override,
     },
     id,

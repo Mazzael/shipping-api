@@ -14,7 +14,6 @@ const createDeliverymanBodySchema = z.object({
   name: z.string(),
   cpf: z.string(),
   password: z.string(),
-  role: z.enum(['admin', 'delivery-personnel']).default('delivery-personnel'),
 })
 
 type CreateDeliverymanBodySchema = z.infer<typeof createDeliverymanBodySchema>
@@ -26,13 +25,12 @@ export class CreateDeliverymanController {
   @Post()
   @UsePipes(new ZodValidationPipe(createDeliverymanBodySchema))
   async handle(@Body() body: CreateDeliverymanBodySchema) {
-    const { name, cpf, password, role } = body
+    const { name, cpf, password } = body
 
     const result = await this.createDeliverymanUseCase.execute({
       name,
       cpf,
       password,
-      role,
     })
 
     if (result.isLeft()) {
