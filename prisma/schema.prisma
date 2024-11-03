@@ -58,8 +58,8 @@ model Order {
   createdAt      DateTime    @default(now()) @map("created_at")
   updatedAt      DateTime?   @map("updated_at")
 
-  user       User?        @relation(fields: [userId], references: [id])
-  recipient  Recipient    @relation(fields: [recipientId], references: [id])
+  user       User?        @relation(fields: [userId], references: [id], onDelete: NoAction)
+  recipient  Recipient    @relation(fields: [recipientId], references: [id], onDelete: NoAction)
   Photo      Photo[]
   OrderItems OrderItems[]
 

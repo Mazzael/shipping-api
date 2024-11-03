@@ -17,6 +17,8 @@ import { ChangePasswordUseCase } from '@/domain/shipping/application/use-cases/c
 import { ChangePasswordController } from './controllers/change-password.controller'
 import { CreateRecipientOrderController } from './controllers/create-recipient-order.controller'
 import { CreateRecipientOrderUseCase } from '@/domain/shipping/application/use-cases/create-recipient-order'
+import { DeleteDeliverymanController } from './controllers/delete-deliveryman.controller'
+import { DeleteDeliverymanUseCase } from '@/domain/shipping/application/use-cases/delete-delivery-personnel'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -29,6 +31,7 @@ import { CreateRecipientOrderUseCase } from '@/domain/shipping/application/use-c
     CreateAdminController,
     ChangePasswordController,
     CreateRecipientOrderController,
+    DeleteDeliverymanController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -39,6 +42,7 @@ import { CreateRecipientOrderUseCase } from '@/domain/shipping/application/use-c
     CreateAdminUseCase,
     ChangePasswordUseCase,
     CreateRecipientOrderUseCase,
+    DeleteDeliverymanUseCase,
   ],
 })
 export class HttpModule {}

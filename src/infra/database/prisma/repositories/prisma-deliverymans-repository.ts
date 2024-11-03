@@ -62,7 +62,7 @@ export class PrismaDeliverymansRepository implements DeliverymansRepository {
   async delete(deliveryman: Deliveryman) {
     const data = PrismaDeliverymanMapper.toPrisma(deliveryman)
 
-    await this.prisma.recipient.delete({
+    await this.prisma.user.delete({
       where: {
         id: data.id,
       },
