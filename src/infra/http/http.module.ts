@@ -15,6 +15,8 @@ import { CreateAdminController } from './controllers/create-admin.controller'
 import { CreateAdminUseCase } from '@/domain/shipping/application/use-cases/create-admin'
 import { ChangePasswordUseCase } from '@/domain/shipping/application/use-cases/change-password'
 import { ChangePasswordController } from './controllers/change-password.controller'
+import { CreateRecipientOrderController } from './controllers/create-recipient-order.controller'
+import { CreateRecipientOrderUseCase } from '@/domain/shipping/application/use-cases/create-recipient-order'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -26,6 +28,7 @@ import { ChangePasswordController } from './controllers/change-password.controll
     CreateDeliverymanController,
     CreateAdminController,
     ChangePasswordController,
+    CreateRecipientOrderController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -35,6 +38,7 @@ import { ChangePasswordController } from './controllers/change-password.controll
     CreateDeliverymanUseCase,
     CreateAdminUseCase,
     ChangePasswordUseCase,
+    CreateRecipientOrderUseCase,
   ],
 })
 export class HttpModule {}

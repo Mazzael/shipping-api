@@ -50,6 +50,8 @@ export class CreateRecipientOrderUseCase {
 
     recipient.orders.add(order)
 
+    await this.recipientsRepository.save(recipient)
+
     return right({ order })
   }
 }
