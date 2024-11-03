@@ -2,6 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteOrderUseCaseRequest {
   orderId: string
@@ -12,6 +13,7 @@ type DeleteOrderUseCaseResponse = Either<
   { order: Order }
 >
 
+@Injectable()
 export class DeleteOrderUseCase {
   constructor(private ordersRepository: OrdersRepository) {}
 
