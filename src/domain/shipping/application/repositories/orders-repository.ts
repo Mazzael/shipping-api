@@ -4,7 +4,10 @@ import { Order } from '../../enterprise/entities/order'
 export abstract class OrdersRepository {
   abstract findById(id: string): Promise<Order | null>
 
-  abstract findManyByDeliverymanId(deliverymanId: string): Promise<Order[]>
+  abstract findManyByDeliverymanId(
+    deliverymanId: string,
+    params: PaginationParams,
+  ): Promise<Order[]>
 
   abstract findManyByRecipientId(
     recipientId: string,

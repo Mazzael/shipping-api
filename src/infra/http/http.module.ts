@@ -13,6 +13,8 @@ import { CreateDeliverymanController } from './controllers/create-deliveryman.co
 import { CreateDeliverymanUseCase } from '@/domain/shipping/application/use-cases/create-delivery-personnel'
 import { CreateAdminController } from './controllers/create-admin.controller'
 import { CreateAdminUseCase } from '@/domain/shipping/application/use-cases/create-admin'
+import { ChangePasswordUseCase } from '@/domain/shipping/application/use-cases/change-password'
+import { ChangePasswordController } from './controllers/change-password.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -23,6 +25,7 @@ import { CreateAdminUseCase } from '@/domain/shipping/application/use-cases/crea
     ChangeRecipientAddressController,
     CreateDeliverymanController,
     CreateAdminController,
+    ChangePasswordController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -31,6 +34,7 @@ import { CreateAdminUseCase } from '@/domain/shipping/application/use-cases/crea
     AuthenticateAdminUseCase,
     CreateDeliverymanUseCase,
     CreateAdminUseCase,
+    ChangePasswordUseCase,
   ],
 })
 export class HttpModule {}

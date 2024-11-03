@@ -7,7 +7,7 @@ import { Order } from '@/domain/shipping/enterprise/entities/order'
 export class InMemoryOrdersRepository implements OrdersRepository {
   public items: Order[] = []
 
-  async findById(id: string): Promise<Order> {
+  async findById(id: string) {
     const order = await this.items.find((item) => item.id.toString() === id)
 
     if (!order) {

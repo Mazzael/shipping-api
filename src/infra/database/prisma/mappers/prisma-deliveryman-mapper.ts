@@ -1,9 +1,27 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Deliveryman } from '@/domain/shipping/enterprise/entities/deliveryman'
 import { User as PrismaDeliveryman } from '@prisma/client'
+import { PrismaService } from '../prisma.service'
+import { PrismaOrderMapper } from './prisma-order-mapper'
+import { OrderList } from '@/domain/shipping/enterprise/entities/order-list'
 
 export class PrismaDeliverymanMapper {
-  static toDomain(raw: PrismaDeliveryman): Deliveryman {
+  static async toDomain(
+    raw: PrismaDeliveryman,
+    prisma: PrismaService,
+  ): Promise<Deliveryman> {
+    const prismaDeliverymanOrders = await prisma.order.findMany({
+      where: {
+        userId: raw.id,
+      },
+    })
+
+    const deliverymanOrders = await Promise.all(
+      prismaDeliverymanOrders.map((order) =>
+        PrismaOrderMapper.toDomain(order, prisma),
+      ),
+    )
+
     return Deliveryman.create(
       {
         name: raw.name,
@@ -11,6 +29,7 @@ export class PrismaDeliverymanMapper {
         password: raw.password,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
+        orders: new OrderList(deliverymanOrders),
       },
       new UniqueEntityID(raw.id),
     )

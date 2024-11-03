@@ -29,7 +29,7 @@ export class PrismaDeliverymansRepository implements DeliverymansRepository {
       return null
     }
 
-    return PrismaDeliverymanMapper.toDomain(deliveryman)
+    return PrismaDeliverymanMapper.toDomain(deliveryman, this.prisma)
   }
 
   async findByCPF(cpf: string) {
@@ -44,13 +44,13 @@ export class PrismaDeliverymansRepository implements DeliverymansRepository {
       return null
     }
 
-    return PrismaDeliverymanMapper.toDomain(deliveryman)
+    return PrismaDeliverymanMapper.toDomain(deliveryman, this.prisma)
   }
 
   async save(deliveryman: Deliveryman) {
     const data = PrismaDeliverymanMapper.toPrisma(deliveryman)
 
-    await this.prisma.recipient.update({
+    await this.prisma.user.update({
       where: {
         id: data.id,
       },

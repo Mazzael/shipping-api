@@ -23,14 +23,15 @@ enum OrderStatus {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  name      String
-  cpf       String    @unique
-  password  String
-  role      UserRole  @default(DELIVERYMAN)
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @map("updated_at")
-  Order     Order[]
+  id           String         @id @default(uuid())
+  name         String
+  cpf          String         @unique
+  password     String
+  role         UserRole       @default(DELIVERYMAN)
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime?      @map("updated_at")
+  Order        Order[]
+  Notification Notification[]
 
   @@map("users")
 }
@@ -50,14 +51,14 @@ model Recipient {
 
 model Order {
   id             String      @id @default(uuid())
-  userId         String      @map("user_id")
+  userId         String?     @map("user_id")
   recipientId    String      @map("recipient_id")
   status         OrderStatus @default(PENDING)
   total_in_cents Int         @map("total_in_cents")
   createdAt      DateTime    @default(now()) @map("created_at")
   updatedAt      DateTime?   @map("updated_at")
 
-  user       User         @relation(fields: [userId], references: [id])
+  user       User?        @relation(fields: [userId], references: [id])
   recipient  Recipient    @relation(fields: [recipientId], references: [id])
   Photo      Photo[]
   OrderItems OrderItems[]
@@ -70,6 +71,8 @@ model Item {
   productName  String       @map("product_name")
   priceInCents Int          @map("price_in_cents")
   OrderItems   OrderItems[]
+
+  @@map("items")
 }
 
 model OrderItems {
@@ -79,8 +82,10 @@ model OrderItems {
   quantity     String
   priceInCents Int    @map("price_in_cents")
 
-  order Order @relation(fields: [orderId], references: [id])
-  item  Item  @relation(fields: [itemId], references: [id])
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  item  Item  @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
 }
 
 model Photo {
@@ -92,4 +97,17 @@ model Photo {
   order Order @relation(fields: [orderId], references: [id])
 
   @@map("photos")
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String    @map("recipient_id")
+  title     String
+  content   String
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
 }
