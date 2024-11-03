@@ -3,12 +3,14 @@ import {
   ConflictException,
   Controller,
   Post,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { Public } from '@/infra/auth/public'
 import { CreateDeliverymanUseCase } from '@/domain/shipping/application/use-cases/create-delivery-personnel'
+import { Roles } from '@/infra/auth/roles'
+import { JwtRoleGuard } from '@/infra/auth/jwt-role-guard'
 
 const createDeliverymanBodySchema = z.object({
   name: z.string(),
@@ -18,7 +20,8 @@ const createDeliverymanBodySchema = z.object({
 
 type CreateDeliverymanBodySchema = z.infer<typeof createDeliverymanBodySchema>
 @Controller('/deliveryman')
-@Public()
+@Roles('admin')
+@UseGuards(JwtRoleGuard)
 export class CreateDeliverymanController {
   constructor(private createDeliverymanUseCase: CreateDeliverymanUseCase) {}
 

@@ -8,6 +8,8 @@ import { AdminsRepository } from '@/domain/shipping/application/repositories/adm
 import { PrismaAdminsRepository } from './prisma/repositories/prisma-admins-repository'
 import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications-repository'
 import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notifications-repository'
+import { OrdersRepository } from '@/domain/shipping/application/repositories/orders-repository'
+import { PrismaOrdersRepository } from './prisma/repositories/prisma-orders-repository'
 
 @Module({
   providers: [
@@ -25,6 +27,10 @@ import { PrismaNotificationsRepository } from './prisma/repositories/prisma-noti
       useClass: PrismaAdminsRepository,
     },
     {
+      provide: OrdersRepository,
+      useClass: PrismaOrdersRepository,
+    },
+    {
       provide: NotificationsRepository,
       useClass: PrismaNotificationsRepository,
     },
@@ -34,6 +40,7 @@ import { PrismaNotificationsRepository } from './prisma/repositories/prisma-noti
     RecipientsRepository,
     DeliverymansRepository,
     AdminsRepository,
+    OrdersRepository,
     NotificationsRepository,
   ],
 })

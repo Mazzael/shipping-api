@@ -25,5 +25,5 @@ Shipping Company API Clean
 - [ ] Only admin users can perform CRUD operations on recipients.
 - [x] Uploading a photo is mandatory to mark an order as delivered.
 - [x] Only the delivery personnel who picked up the order can mark it as delivered.
-- [ ] Only admin users can change a user's password.
+- [x] Only admin users can change a user's password.
 - [x] Delivery personnel should not be able to list the orders of another delivery personnel.

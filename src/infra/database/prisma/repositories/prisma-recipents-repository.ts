@@ -32,7 +32,7 @@ export class PrismaRecipientsRepository implements RecipientsRepository {
       return null
     }
 
-    return PrismaRecipientMapper.toDomain(recipient)
+    return PrismaRecipientMapper.toDomain(recipient, this.prisma)
   }
 
   async findByEmail(email: string) {
@@ -46,7 +46,7 @@ export class PrismaRecipientsRepository implements RecipientsRepository {
       return null
     }
 
-    return PrismaRecipientMapper.toDomain(recipient)
+    return PrismaRecipientMapper.toDomain(recipient, this.prisma)
   }
 
   async findManyNearby({
@@ -58,21 +58,21 @@ export class PrismaRecipientsRepository implements RecipientsRepository {
       WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( ${latitude} ) ) ) ) <= 10
     `
 
-    const recipients = prismaRecipients.map((prismaRecipient) => {
-      return PrismaRecipientMapper.toDomain(prismaRecipient)
-    })
+    const recipients = await Promise.all(
+      prismaRecipients.map((prismaOrder) =>
+        PrismaRecipientMapper.toDomain(prismaOrder, this.prisma),
+      ),
+    )
 
     const nearbyOrders: Order[] = []
 
-    await Promise.all([
-      recipients.forEach((recipient) => {
-        recipient.orders.currentItems.forEach((order) => {
-          if (order.status === 'PICKED-UP') {
-            nearbyOrders.push(order)
-          }
-        })
-      }),
-    ])
+    recipients.forEach((recipient) => {
+      recipient.orders.currentItems.forEach((order) => {
+        if (order.status === 'PICKED-UP') {
+          nearbyOrders.push(order)
+        }
+      })
+    })
 
     return nearbyOrders
   }
