@@ -21,6 +21,8 @@ import { DeleteDeliverymanController } from './controllers/delete-deliveryman.co
 import { DeleteDeliverymanUseCase } from '@/domain/shipping/application/use-cases/delete-delivery-personnel'
 import { DeleteOrderController } from './controllers/delete-order.controller'
 import { DeleteOrderUseCase } from '@/domain/shipping/application/use-cases/delete-order'
+import { DeleteRecipientController } from './controllers/delete-recipient.controller'
+import { DeleteRecipientUseCase } from '@/domain/shipping/application/use-cases/delete-recipient'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -35,6 +37,7 @@ import { DeleteOrderUseCase } from '@/domain/shipping/application/use-cases/dele
     CreateRecipientOrderController,
     DeleteDeliverymanController,
     DeleteOrderController,
+    DeleteRecipientController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -47,6 +50,7 @@ import { DeleteOrderUseCase } from '@/domain/shipping/application/use-cases/dele
     CreateRecipientOrderUseCase,
     DeleteDeliverymanUseCase,
     DeleteOrderUseCase,
+    DeleteRecipientUseCase,
   ],
 })
 export class HttpModule {}
