@@ -25,6 +25,8 @@ import { DeleteRecipientController } from './controllers/delete-recipient.contro
 import { DeleteRecipientUseCase } from '@/domain/shipping/application/use-cases/delete-recipient'
 import { DeliverOrderController } from './controllers/deliver-order.controller'
 import { DeliverOrderUseCase } from '@/domain/shipping/application/use-cases/deliver-order'
+import { FetchDeliverymanOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-delivery-personnel-orders'
+import { FetchDeliverymanOrdersController } from './controllers/fetch-deliveryman-orders.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -41,6 +43,7 @@ import { DeliverOrderUseCase } from '@/domain/shipping/application/use-cases/del
     DeleteOrderController,
     DeleteRecipientController,
     DeliverOrderController,
+    FetchDeliverymanOrdersController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -55,6 +58,7 @@ import { DeliverOrderUseCase } from '@/domain/shipping/application/use-cases/del
     DeleteOrderUseCase,
     DeleteRecipientUseCase,
     DeliverOrderUseCase,
+    FetchDeliverymanOrdersUseCase,
   ],
 })
 export class HttpModule {}
