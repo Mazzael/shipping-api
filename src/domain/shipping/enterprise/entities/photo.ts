@@ -21,6 +21,10 @@ export class Photo extends Entity<PhotoProps> {
     return this.props.orderId ?? null
   }
 
+  get createdAt() {
+    return this.props.createdAt
+  }
+
   set orderId(id: UniqueEntityID) {
     this.props.orderId = id
   }

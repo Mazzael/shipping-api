@@ -10,6 +10,8 @@ import { NotificationsRepository } from '@/domain/notification/application/repos
 import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notifications-repository'
 import { OrdersRepository } from '@/domain/shipping/application/repositories/orders-repository'
 import { PrismaOrdersRepository } from './prisma/repositories/prisma-orders-repository'
+import { PhotosRepository } from '@/domain/shipping/application/repositories/photos-repository'
+import { PrismaPhotosRepository } from './prisma/repositories/prisma-photos-repository'
 
 @Module({
   providers: [
@@ -34,6 +36,10 @@ import { PrismaOrdersRepository } from './prisma/repositories/prisma-orders-repo
       provide: NotificationsRepository,
       useClass: PrismaNotificationsRepository,
     },
+    {
+      provide: PhotosRepository,
+      useClass: PrismaPhotosRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -41,6 +47,7 @@ import { PrismaOrdersRepository } from './prisma/repositories/prisma-orders-repo
     DeliverymansRepository,
     AdminsRepository,
     OrdersRepository,
+    PhotosRepository,
     NotificationsRepository,
   ],
 })

@@ -6,6 +6,7 @@ import { OrdersRepository } from '../repositories/orders-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DomainEvents } from '@/core/events/domain-events'
+import { Injectable } from '@nestjs/common'
 
 interface DeliverOrderUseCaseRequest {
   deliverymanId: string
@@ -20,6 +21,7 @@ type DeliverOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class DeliverOrderUseCase {
   constructor(
     private photosRepository: PhotosRepository,
@@ -48,6 +50,8 @@ export class DeliverOrderUseCase {
     }
 
     photo.orderId = new UniqueEntityID(orderId)
+
+    await this.photosRepository.save(photo)
 
     order.deliverOrder()
 

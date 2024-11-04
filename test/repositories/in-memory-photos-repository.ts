@@ -19,4 +19,10 @@ export class InMemoryPhotosRepository implements PhotosRepository {
 
     return photo
   }
+
+  async save(photo: Photo) {
+    const itemIndex = this.items.findIndex((item) => item.id === photo.id)
+
+    this.items[itemIndex] = photo
+  }
 }
