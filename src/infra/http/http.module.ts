@@ -29,9 +29,12 @@ import { FetchDeliverymanOrdersUseCase } from '@/domain/shipping/application/use
 import { FetchDeliverymanOrdersController } from './controllers/fetch-deliveryman-orders.controller'
 import { FetchNearbyOrdersController } from './controllers/fetch-nearby-orders.controller'
 import { FetchNearbyOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-nearby-orders'
+import { StorageModule } from '../storage/storage.module'
+import { UploadPhotoController } from './controllers/upload-photo.controller'
+import { UploadPhotoUseCase } from '@/domain/shipping/application/use-cases/upload-photo'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     CreateRecipientController,
     AuthenticateDeliverymanController,
@@ -47,6 +50,7 @@ import { FetchNearbyOrdersUseCase } from '@/domain/shipping/application/use-case
     DeliverOrderController,
     FetchDeliverymanOrdersController,
     FetchNearbyOrdersController,
+    UploadPhotoController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -63,6 +67,7 @@ import { FetchNearbyOrdersUseCase } from '@/domain/shipping/application/use-case
     DeliverOrderUseCase,
     FetchDeliverymanOrdersUseCase,
     FetchNearbyOrdersUseCase,
+    UploadPhotoUseCase,
   ],
 })
 export class HttpModule {}
