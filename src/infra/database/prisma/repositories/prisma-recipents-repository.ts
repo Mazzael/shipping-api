@@ -54,13 +54,29 @@ export class PrismaRecipientsRepository implements RecipientsRepository {
     longitude,
   }: FindManyNearbyParams): Promise<Order[]> {
     const prismaRecipients = await this.prisma.$queryRaw<PrismaRecipient[]>`
-      SELECT * from recipients
-      WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( ${latitude} ) ) ) ) <= 10
+        SELECT * from recipients
+        WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( address_latitude ) ) * cos( radians( address_longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( address_latitude ) ) ) ) <= 10
     `
 
+    const addaptedPrismaRecipients: PrismaRecipient[] = []
+
+    prismaRecipients.forEach((prismaRecipient) => {
+      addaptedPrismaRecipients.push({
+        id: prismaRecipient.id,
+        email: prismaRecipient.email,
+        name: prismaRecipient.name,
+        // @ts-ignore
+        addressLatitude: prismaRecipient.address_latitude, 
+        // @ts-ignore
+        addressLongitude: prismaRecipient.address_longitude,
+        createdAt: prismaRecipient.createdAt,
+        updatedAt: prismaRecipient.updatedAt,
+      })
+    })
+
     const recipients = await Promise.all(
-      prismaRecipients.map((prismaOrder) =>
-        PrismaRecipientMapper.toDomain(prismaOrder, this.prisma),
+      addaptedPrismaRecipients.map((prismaRecipient) =>
+        PrismaRecipientMapper.toDomain(prismaRecipient, this.prisma),
       ),
     )
 

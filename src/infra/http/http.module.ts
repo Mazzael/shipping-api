@@ -27,6 +27,8 @@ import { DeliverOrderController } from './controllers/deliver-order.controller'
 import { DeliverOrderUseCase } from '@/domain/shipping/application/use-cases/deliver-order'
 import { FetchDeliverymanOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-delivery-personnel-orders'
 import { FetchDeliverymanOrdersController } from './controllers/fetch-deliveryman-orders.controller'
+import { FetchNearbyOrdersController } from './controllers/fetch-nearby-orders.controller'
+import { FetchNearbyOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-nearby-orders'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -44,6 +46,7 @@ import { FetchDeliverymanOrdersController } from './controllers/fetch-deliveryma
     DeleteRecipientController,
     DeliverOrderController,
     FetchDeliverymanOrdersController,
+    FetchNearbyOrdersController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -59,6 +62,7 @@ import { FetchDeliverymanOrdersController } from './controllers/fetch-deliveryma
     DeleteRecipientUseCase,
     DeliverOrderUseCase,
     FetchDeliverymanOrdersUseCase,
+    FetchNearbyOrdersUseCase,
   ],
 })
 export class HttpModule {}
