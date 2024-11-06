@@ -10,7 +10,7 @@ import { OrderFactory } from 'test/factories/make-order'
 import { PhotoFactory } from 'test/factories/make-photo'
 import { RecipientFactory } from 'test/factories/make-recipient'
 
-describe.only('Deliver Order (E2E)', () => {
+describe('Deliver Order (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let deliverymanFactory: DeliverymanFactory
@@ -40,7 +40,7 @@ describe.only('Deliver Order (E2E)', () => {
     await app.init()
   })
 
-  test.only('[PATCH] /order', async () => {
+  test('[PATCH] /order', async () => {
     const deliveryman = await deliverymanFactory.makePrismaDeliveryman({
       password: await hash('123456', 8),
     })

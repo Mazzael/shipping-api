@@ -10,7 +10,7 @@ import { DeliverymanFactory } from 'test/factories/make-deliveryman'
 import { OrderFactory } from 'test/factories/make-order'
 import { RecipientFactory } from 'test/factories/make-recipient'
 
-describe.only('Fetch Nearby Orders (E2E)', () => {
+describe('Fetch Nearby Orders (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let deliverymanFactory: DeliverymanFactory
@@ -33,7 +33,7 @@ describe.only('Fetch Nearby Orders (E2E)', () => {
     await app.init()
   })
 
-  test.only('[GET] /deliveryman/orders/nearby', async () => {
+  test('[GET] /deliveryman/orders/nearby', async () => {
     const recipient = await recipientFactory.makePrismaRecipient({
       addressLatitude: -21.263227,
       addressLongitude: -47.828325,

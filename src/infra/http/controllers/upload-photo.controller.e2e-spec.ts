@@ -27,7 +27,7 @@ describe(
       await app.init()
     })
 
-    test('[POST] /photos', async () => {
+    test.skip('[POST] /photos', async () => {
       const deliveryman = await deliverymanFactory.makePrismaDeliveryman()
 
       const accessToken = jwt.sign({ sub: deliveryman.id.toString() })

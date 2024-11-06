@@ -32,6 +32,8 @@ import { FetchNearbyOrdersUseCase } from '@/domain/shipping/application/use-case
 import { StorageModule } from '../storage/storage.module'
 import { UploadPhotoController } from './controllers/upload-photo.controller'
 import { UploadPhotoUseCase } from '@/domain/shipping/application/use-cases/upload-photo'
+import { FetchRecipientOrdersController } from './controllers/fetch-recipient-orders.controller'
+import { FetchRecipientOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-recipient-orders'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -51,6 +53,7 @@ import { UploadPhotoUseCase } from '@/domain/shipping/application/use-cases/uplo
     FetchDeliverymanOrdersController,
     FetchNearbyOrdersController,
     UploadPhotoController,
+    FetchRecipientOrdersController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -68,6 +71,7 @@ import { UploadPhotoUseCase } from '@/domain/shipping/application/use-cases/uplo
     FetchDeliverymanOrdersUseCase,
     FetchNearbyOrdersUseCase,
     UploadPhotoUseCase,
+    FetchRecipientOrdersUseCase,
   ],
 })
 export class HttpModule {}
