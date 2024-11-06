@@ -34,6 +34,8 @@ import { UploadPhotoController } from './controllers/upload-photo.controller'
 import { UploadPhotoUseCase } from '@/domain/shipping/application/use-cases/upload-photo'
 import { FetchRecipientOrdersController } from './controllers/fetch-recipient-orders.controller'
 import { FetchRecipientOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-recipient-orders'
+import { GetDeliverymanController } from './controllers/get-deliveryman.controller'
+import { GetDeliverymanUseCase } from '@/domain/shipping/application/use-cases/get-delivery-personnel'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -54,6 +56,7 @@ import { FetchRecipientOrdersUseCase } from '@/domain/shipping/application/use-c
     FetchNearbyOrdersController,
     UploadPhotoController,
     FetchRecipientOrdersController,
+    GetDeliverymanController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -72,6 +75,7 @@ import { FetchRecipientOrdersUseCase } from '@/domain/shipping/application/use-c
     FetchNearbyOrdersUseCase,
     UploadPhotoUseCase,
     FetchRecipientOrdersUseCase,
+    GetDeliverymanUseCase,
   ],
 })
 export class HttpModule {}

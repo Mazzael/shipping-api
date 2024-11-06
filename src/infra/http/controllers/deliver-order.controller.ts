@@ -7,9 +7,7 @@ import {
   Param,
   Patch,
   UnauthorizedException,
-  UseGuards,
 } from '@nestjs/common'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth-guard'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { DeliverOrderUseCase } from '@/domain/shipping/application/use-cases/deliver-order'
@@ -27,7 +25,6 @@ const bodyValidationPipe = new ZodValidationPipe(deliverOrderBodySchema)
 type DeliverOrderBodySchema = z.infer<typeof deliverOrderBodySchema>
 
 @Controller('/order/:id')
-@UseGuards(JwtAuthGuard)
 export class DeliverOrderController {
   constructor(private deliverOrderUseCase: DeliverOrderUseCase) {}
 

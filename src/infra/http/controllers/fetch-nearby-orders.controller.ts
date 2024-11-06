@@ -1,5 +1,4 @@
-import { Body, Controller, Get, HttpCode, UseGuards } from '@nestjs/common'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth-guard'
+import { Body, Controller, Get, HttpCode } from '@nestjs/common'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { FetchNearbyOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-nearby-orders'
@@ -16,7 +15,6 @@ type FetchNearbyOrdersBodySchema = z.infer<typeof fetchNearbyOrdersBodySchema>
 const bodyValidationPipe = new ZodValidationPipe(fetchNearbyOrdersBodySchema)
 
 @Controller('/deliveryman/orders/nearby')
-@UseGuards(JwtAuthGuard)
 export class FetchNearbyOrdersController {
   constructor(private fetchNearbyOrdersUseCase: FetchNearbyOrdersUseCase) {}
 

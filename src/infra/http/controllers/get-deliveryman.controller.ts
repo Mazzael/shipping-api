@@ -1,20 +1,18 @@
 import { Controller, Get, HttpCode, NotFoundException } from '@nestjs/common'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { FetchDeliverymanOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-delivery-personnel-orders'
+import { GetDeliverymanUseCase } from '@/domain/shipping/application/use-cases/get-delivery-personnel'
 
-@Controller('/deliveryman/orders')
-export class FetchDeliverymanOrdersController {
-  constructor(
-    private fetchDeliverymanOrdersUseCase: FetchDeliverymanOrdersUseCase,
-  ) {}
+@Controller('/deliveryman/profile')
+export class GetDeliverymanController {
+  constructor(private getDeliverymanUseCase: GetDeliverymanUseCase) {}
 
   @Get()
   @HttpCode(200)
   async handle(@CurrentUser() user: UserPayload) {
     const userId = user.sub
 
-    const result = await this.fetchDeliverymanOrdersUseCase.execute({
+    const result = await this.getDeliverymanUseCase.execute({
       id: userId,
     })
 
@@ -23,7 +21,7 @@ export class FetchDeliverymanOrdersController {
     }
 
     return {
-      orders: result.value.orders,
+      deliveryman: result.value.deliveryman,
     }
   }
 }
