@@ -36,6 +36,8 @@ import { FetchRecipientOrdersController } from './controllers/fetch-recipient-or
 import { FetchRecipientOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-recipient-orders'
 import { GetDeliverymanController } from './controllers/get-deliveryman.controller'
 import { GetDeliverymanUseCase } from '@/domain/shipping/application/use-cases/get-delivery-personnel'
+import { GetOrderController } from './controllers/get-order.controller'
+import { GetOrderUseCase } from '@/domain/shipping/application/use-cases/get-order'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -57,6 +59,7 @@ import { GetDeliverymanUseCase } from '@/domain/shipping/application/use-cases/g
     UploadPhotoController,
     FetchRecipientOrdersController,
     GetDeliverymanController,
+    GetOrderController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -76,6 +79,7 @@ import { GetDeliverymanUseCase } from '@/domain/shipping/application/use-cases/g
     UploadPhotoUseCase,
     FetchRecipientOrdersUseCase,
     GetDeliverymanUseCase,
+    GetOrderUseCase,
   ],
 })
 export class HttpModule {}

@@ -7,7 +7,7 @@ import { hash } from 'bcryptjs'
 import request from 'supertest'
 import { DeliverymanFactory } from 'test/factories/make-deliveryman'
 
-describe('Fetch Deliveryman Orders (E2E)', () => {
+describe('Get Deliveryman (E2E)', () => {
   let app: INestApplication
   let deliverymanFactory: DeliverymanFactory
 
