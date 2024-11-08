@@ -10,7 +10,7 @@ import { Roles } from '@/infra/auth/roles'
 import { JwtRoleGuard } from '@/infra/auth/jwt-role-guard'
 import { GetRecipientUseCase } from '@/domain/shipping/application/use-cases/get-recipient'
 
-@Controller('/recipient/profile')
+@Controller('/recipient/:id')
 @Roles('admin')
 @UseGuards(JwtRoleGuard)
 export class GetRecipientController {

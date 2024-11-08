@@ -23,28 +23,28 @@ enum OrderStatus {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  name         String
-  cpf          String         @unique
-  password     String
-  role         UserRole       @default(DELIVERYMAN)
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime?      @map("updated_at")
-  Order        Order[]
-  Notification Notification[]
+  id        String    @id @default(uuid())
+  name      String
+  cpf       String    @unique
+  password  String
+  role      UserRole  @default(DELIVERYMAN)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  Order     Order[]
 
   @@map("users")
 }
 
 model Recipient {
-  id               String    @id @default(uuid())
+  id               String         @id @default(uuid())
   name             String
-  email            String    @unique
-  addressLatitude  Decimal   @map("address_latitude")
-  addressLongitude Decimal   @map("address_longitude")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime? @map("updated_at")
+  email            String         @unique
+  addressLatitude  Decimal        @map("address_latitude")
+  addressLongitude Decimal        @map("address_longitude")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime?      @map("updated_at")
   Order            Order[]
+  Notification     Notification[]
 
   @@map("recipients")
 }
@@ -101,14 +101,14 @@ model Photo {
 }
 
 model Notification {
-  id        String    @id @default(uuid())
-  userId    String    @map("recipient_id")
-  title     String
-  content   String
-  readAt    DateTime? @map("read_at")
-  createdAt DateTime  @default(now()) @map("created_at")
+  id          String    @id @default(uuid())
+  recipientId String    @map("recipient_id")
+  title       String
+  content     String
+  readAt      DateTime? @map("read_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: NoAction)
+  recipient Recipient @relation(fields: [recipientId], references: [id])
 
   @@map("notifications")
 }

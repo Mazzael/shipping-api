@@ -8,7 +8,7 @@ export class PrismaNotificationMapper {
       {
         title: raw.title,
         content: raw.content,
-        recipientId: new UniqueEntityID(raw.userId),
+        recipientId: new UniqueEntityID(raw.recipientId),
         readAt: raw.readAt,
         createdAt: raw.createdAt,
       },
@@ -21,7 +21,7 @@ export class PrismaNotificationMapper {
   ): Prisma.NotificationUncheckedCreateInput {
     return {
       id: notification.id.toString(),
-      userId: notification.recipientId.toString(),
+      recipientId: notification.recipientId.toString(),
       title: notification.title,
       content: notification.content,
       readAt: notification.readAt,
