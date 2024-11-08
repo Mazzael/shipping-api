@@ -71,8 +71,6 @@ describe('On Answer Created (E2E)', () => {
         },
       })
 
-      console.log(notificationOnDatabase, 'order delivered')
-
       expect(notificationOnDatabase).not.toBeNull()
     })
   })

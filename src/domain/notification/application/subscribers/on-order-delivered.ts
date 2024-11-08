@@ -18,7 +18,6 @@ export class OnOrderDelivered implements EventHandler {
   }
 
   private async sendOrderDeliveredNotification({ order }: OrderDeliveredEvent) {
-    console.log('chega aqui')
     await this.sendNotification.execute({
       recipientId: order.recipientId.toString(),
       title: 'Order delivered',
