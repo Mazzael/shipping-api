@@ -43,11 +43,9 @@ describe('Get Recipient (E2E)', () => {
     const recipient = await recipientFactory.makePrismaRecipient()
 
     const response = await request(app.getHttpServer())
-      .get(`/recipient/profile`)
+      .get(`/recipient/${recipient.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        recipientId: recipient.id.toString(),
-      })
+      .send()
 
     expect(response.statusCode).toBe(200)
 

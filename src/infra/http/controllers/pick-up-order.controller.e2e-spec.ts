@@ -49,11 +49,9 @@ describe('Pick Up Order (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .patch(`/orders/pick-up`)
+      .patch(`/orders/pick-up/${order.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        orderId: order.id.toString(),
-      })
+      .send()
 
     expect(response.statusCode).toBe(200)
 

@@ -1,31 +1,19 @@
 import {
-  Body,
   Controller,
   Get,
   HttpCode,
   NotFoundException,
+  Param,
 } from '@nestjs/common'
 import { GetOrderUseCase } from '@/domain/shipping/application/use-cases/get-order'
-import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
-const getOrderBodySchema = z.object({
-  orderId: z.string(),
-})
-
-type GetOrderBodySchema = z.infer<typeof getOrderBodySchema>
-
-const bodyValidationPipe = new ZodValidationPipe(getOrderBodySchema)
-
-@Controller('/order/details')
+@Controller('/order/:id')
 export class GetOrderController {
   constructor(private getOrderUseCase: GetOrderUseCase) {}
 
   @Get()
   @HttpCode(200)
-  async handle(@Body(bodyValidationPipe) body: GetOrderBodySchema) {
-    const { orderId } = body
-
+  async handle(@Param('id') orderId: string) {
     const result = await this.getOrderUseCase.execute({
       id: orderId,
     })

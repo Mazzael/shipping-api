@@ -1,28 +1,18 @@
 import {
-  Body,
   Controller,
   HttpCode,
   NotFoundException,
+  Param,
   Patch,
   UseGuards,
 } from '@nestjs/common'
 import { Roles } from '@/infra/auth/roles'
 import { JwtRoleGuard } from '@/infra/auth/jwt-role-guard'
-import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { PickUpOrderUseCase } from '@/domain/shipping/application/use-cases/pick-up-order'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 
-const pickUpOrderBodySchema = z.object({
-  orderId: z.string(),
-})
-
-type PickUpOrderBodySchema = z.infer<typeof pickUpOrderBodySchema>
-
-const bodyValidationPipe = new ZodValidationPipe(pickUpOrderBodySchema)
-
-@Controller('/orders/pick-up')
+@Controller('/orders/pick-up/:id')
 @Roles('deliveryman')
 @UseGuards(JwtRoleGuard)
 export class PickUpOrderController {
@@ -30,12 +20,7 @@ export class PickUpOrderController {
 
   @Patch()
   @HttpCode(200)
-  async handle(
-    @CurrentUser() user: UserPayload,
-    @Body(bodyValidationPipe) body: PickUpOrderBodySchema,
-  ) {
-    const { orderId } = body
-
+  async handle(@CurrentUser() user: UserPayload, @Param('id') orderId: string) {
     const userId = user.sub
 
     const result = await this.pickUpOrderUseCase.execute({

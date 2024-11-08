@@ -56,11 +56,9 @@ describe('Get Order (E2E)', () => {
     const { accessToken } = authResponse.body
 
     const response = await request(app.getHttpServer())
-      .get(`/order/details`)
+      .get(`/order/${orderToBeReturned.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        orderId: orderToBeReturned.id.toString(),
-      })
+      .send()
 
     expect(response.statusCode).toBe(200)
 
