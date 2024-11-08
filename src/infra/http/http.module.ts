@@ -38,6 +38,10 @@ import { GetDeliverymanController } from './controllers/get-deliveryman.controll
 import { GetDeliverymanUseCase } from '@/domain/shipping/application/use-cases/get-delivery-personnel'
 import { GetOrderController } from './controllers/get-order.controller'
 import { GetOrderUseCase } from '@/domain/shipping/application/use-cases/get-order'
+import { GetRecipientController } from './controllers/get-recipient.controller'
+import { GetRecipientUseCase } from '@/domain/shipping/application/use-cases/get-recipient'
+import { PickUpOrderController } from './controllers/pick-up-order.controller'
+import { PickUpOrderUseCase } from '@/domain/shipping/application/use-cases/pick-up-order'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -60,6 +64,8 @@ import { GetOrderUseCase } from '@/domain/shipping/application/use-cases/get-ord
     FetchRecipientOrdersController,
     GetDeliverymanController,
     GetOrderController,
+    GetRecipientController,
+    PickUpOrderController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -80,6 +86,8 @@ import { GetOrderUseCase } from '@/domain/shipping/application/use-cases/get-ord
     FetchRecipientOrdersUseCase,
     GetDeliverymanUseCase,
     GetOrderUseCase,
+    GetRecipientUseCase,
+    PickUpOrderUseCase,
   ],
 })
 export class HttpModule {}
