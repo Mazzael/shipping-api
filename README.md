@@ -20,9 +20,9 @@ Shipping Company API Clean
 
 ## BRs (Business Rules)
 
-- [ ] Only admin users can perform CRUD operations on orders.
-- [ ] Only admin users can perform CRUD operations on delivery personnel.
-- [ ] Only admin users can perform CRUD operations on recipients.
+- [x] Only admin users can perform CRUD operations on orders.
+- [x] Only admin users can perform CRUD operations on delivery personnel.
+- [x] Only admin users can perform CRUD operations on recipients.
 - [x] Uploading a photo is mandatory to mark an order as delivered.
 - [x] Only the delivery personnel who picked up the order can mark it as delivered.
 - [x] Only admin users can change a user's password.
