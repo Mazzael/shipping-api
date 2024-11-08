@@ -10,35 +10,35 @@ import { Roles } from '@/infra/auth/roles'
 import { JwtRoleGuard } from '@/infra/auth/jwt-role-guard'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { PickUpOrderUseCase } from '@/domain/shipping/application/use-cases/pick-up-order'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { ReturnOrderUseCase } from '@/domain/shipping/application/use-cases/return-order'
 
-const pickUpOrderBodySchema = z.object({
+const returnOrderBodySchema = z.object({
   orderId: z.string(),
 })
 
-type PickUpOrderBodySchema = z.infer<typeof pickUpOrderBodySchema>
+type ReturnOrderBodySchema = z.infer<typeof returnOrderBodySchema>
 
-const bodyValidationPipe = new ZodValidationPipe(pickUpOrderBodySchema)
+const bodyValidationPipe = new ZodValidationPipe(returnOrderBodySchema)
 
-@Controller('/orders/pick-up')
+@Controller('/orders/return')
 @Roles('deliveryman')
 @UseGuards(JwtRoleGuard)
-export class PickUpOrderController {
-  constructor(private pickUpOrderUseCase: PickUpOrderUseCase) {}
+export class ReturnOrderController {
+  constructor(private returnOrderUseCase: ReturnOrderUseCase) {}
 
   @Patch()
   @HttpCode(200)
   async handle(
     @CurrentUser() user: UserPayload,
-    @Body(bodyValidationPipe) body: PickUpOrderBodySchema,
+    @Body(bodyValidationPipe) body: ReturnOrderBodySchema,
   ) {
     const { orderId } = body
 
     const userId = user.sub
 
-    const result = await this.pickUpOrderUseCase.execute({
+    const result = await this.returnOrderUseCase.execute({
       orderId,
       deliverymanId: userId,
     })

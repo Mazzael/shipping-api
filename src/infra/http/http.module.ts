@@ -42,6 +42,8 @@ import { GetRecipientController } from './controllers/get-recipient.controller'
 import { GetRecipientUseCase } from '@/domain/shipping/application/use-cases/get-recipient'
 import { PickUpOrderController } from './controllers/pick-up-order.controller'
 import { PickUpOrderUseCase } from '@/domain/shipping/application/use-cases/pick-up-order'
+import { ReturnOrderController } from './controllers/return-order.controller'
+import { ReturnOrderUseCase } from '@/domain/shipping/application/use-cases/return-order'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -66,6 +68,7 @@ import { PickUpOrderUseCase } from '@/domain/shipping/application/use-cases/pick
     GetOrderController,
     GetRecipientController,
     PickUpOrderController,
+    ReturnOrderController,
   ],
   providers: [
     CreateRecipientUseCase,
@@ -88,6 +91,7 @@ import { PickUpOrderUseCase } from '@/domain/shipping/application/use-cases/pick
     GetOrderUseCase,
     GetRecipientUseCase,
     PickUpOrderUseCase,
+    ReturnOrderUseCase,
   ],
 })
 export class HttpModule {}

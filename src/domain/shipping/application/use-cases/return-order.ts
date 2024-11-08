@@ -4,6 +4,7 @@ import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { DomainEvents } from '@/core/events/domain-events'
+import { Injectable } from '@nestjs/common'
 
 interface ReturnOrderUseCaseRequest {
   deliverymanId: string
@@ -17,6 +18,7 @@ type ReturnOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class ReturnOrderUseCase {
   constructor(private ordersRepository: OrdersRepository) {}
 

@@ -8,7 +8,7 @@ import { DeliverymanFactory } from 'test/factories/make-deliveryman'
 import { OrderFactory } from 'test/factories/make-order'
 import { RecipientFactory } from 'test/factories/make-recipient'
 
-describe('Pick Up Order (E2E)', () => {
+describe('Return Order (E2E)', () => {
   let app: INestApplication
   let recipientFactory: RecipientFactory
   let deliverymanFactory: DeliverymanFactory
@@ -29,7 +29,7 @@ describe('Pick Up Order (E2E)', () => {
     await app.init()
   })
 
-  test('[PATCH] /orders/pick-up', async () => {
+  test('[PATCH] /orders/return', async () => {
     const deliveryman = await deliverymanFactory.makePrismaDeliveryman({
       password: await hash('123456', 8),
     })
@@ -49,7 +49,7 @@ describe('Pick Up Order (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .patch(`/orders/pick-up`)
+      .patch(`/orders/return`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         orderId: order.id.toString(),
@@ -62,7 +62,7 @@ describe('Pick Up Order (E2E)', () => {
         deliverymanId: deliveryman.id.toString(),
         orderId: order.id.toString(),
         totalInCents: order.totalInCents,
-        status: 'PICKED-UP',
+        status: 'RETURNED',
       }),
     })
   })
