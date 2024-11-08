@@ -7,7 +7,6 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { DeliverymanFactory } from 'test/factories/make-deliveryman'
-import { OrderFactory } from 'test/factories/make-order'
 import { RecipientFactory } from 'test/factories/make-recipient'
 import { waitFor } from 'test/utils/wait-for'
 
@@ -16,20 +15,18 @@ describe('On Answer Created (E2E)', () => {
   let prisma: PrismaService
   let deliverymanFactory: DeliverymanFactory
   let recipientFactory: RecipientFactory
-  let orderFactory: OrderFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [DeliverymanFactory, RecipientFactory, OrderFactory],
+      providers: [DeliverymanFactory, RecipientFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
 
     deliverymanFactory = moduleRef.get(DeliverymanFactory)
     recipientFactory = moduleRef.get(RecipientFactory)
-    orderFactory = moduleRef.get(OrderFactory)
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
 
@@ -38,16 +35,19 @@ describe('On Answer Created (E2E)', () => {
     await app.init()
   })
 
-  it('should send a notification when answer is created', async () => {
+  it('should send a notification when an order is returned', async () => {
     const deliveryman = await deliverymanFactory.makePrismaDeliveryman()
 
     const accessToken = jwt.sign({ sub: deliveryman.id.toString() })
 
     const recipient = await recipientFactory.makePrismaRecipient()
 
-    const order = await orderFactory.makePrismaOrder({
-      deliverymanId: deliveryman.id,
-      recipientId: recipient.id,
+    const order = await prisma.order.create({
+      data: {
+        recipientId: recipient.id.toString(),
+        userId: deliveryman.id.toString(),
+        total_in_cents: 15,
+      },
     })
 
     const orderId = order.id.toString()
@@ -63,6 +63,8 @@ describe('On Answer Created (E2E)', () => {
           recipientId: recipient.id.toString(),
         },
       })
+
+      console.log(notificationOnDatabase, 'order returned')
 
       expect(notificationOnDatabase).not.toBeNull()
     })

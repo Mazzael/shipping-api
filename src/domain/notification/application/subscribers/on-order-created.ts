@@ -18,6 +18,7 @@ export class OnOrderCreated implements EventHandler {
   }
 
   private async sendOrderCreatedNotification({ order }: OrderCreatedEvent) {
+    console.log('sim sim')
     await this.sendNotification.execute({
       recipientId: order.recipientId.toString(),
       title: 'Order is pending',

@@ -62,7 +62,7 @@ describe('Deliver Order (E2E)', () => {
     const photo = await photoFactory.makePrismaPhoto()
 
     const response = await request(app.getHttpServer())
-      .patch(`/order/${order.id.toString()}`)
+      .patch(`/order/deliver/${order.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         photoId: photo.id.toString(),

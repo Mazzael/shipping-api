@@ -24,7 +24,7 @@ const bodyValidationPipe = new ZodValidationPipe(deliverOrderBodySchema)
 
 type DeliverOrderBodySchema = z.infer<typeof deliverOrderBodySchema>
 
-@Controller('/order/:id')
+@Controller('/order/deliver/:id')
 export class DeliverOrderController {
   constructor(private deliverOrderUseCase: DeliverOrderUseCase) {}
 

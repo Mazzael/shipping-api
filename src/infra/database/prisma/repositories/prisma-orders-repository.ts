@@ -106,6 +106,8 @@ export class PrismaOrdersRepository implements OrdersRepository {
 
       data,
     })
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
   async delete(order: Order) {
