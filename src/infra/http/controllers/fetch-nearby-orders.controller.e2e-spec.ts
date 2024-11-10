@@ -109,12 +109,12 @@ describe('Fetch Nearby Orders (E2E)', () => {
     }))
 
     const responseOrders = response.body.orders.map((order) => ({
-      id: order._id.value,
-      recipientId: order.props.recipientId.value,
-      deliverymanId: order.props.deliverymanId.value,
-      status: order.props.status,
-      totalInCents: order.props.totalInCents,
-      createdAt: order.props.createdAt,
+      id: order.id,
+      recipientId: order.recipientId,
+      deliverymanId: order.deliverymanId,
+      status: order.status,
+      totalInCents: order.totalInCents,
+      createdAt: order.createdAt,
     }))
 
     expect(responseOrders).toEqual(expect.arrayContaining(expectedOrders))

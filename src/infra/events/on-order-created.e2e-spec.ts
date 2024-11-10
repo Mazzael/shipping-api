@@ -97,7 +97,7 @@ describe('On Answer Created (E2E)', () => {
         ],
       })
 
-    const orderId = result.body.order._id.value
+    const orderId = result.body.order.id
 
     await request(app.getHttpServer())
       .patch(`/order/deliver/${orderId}`)

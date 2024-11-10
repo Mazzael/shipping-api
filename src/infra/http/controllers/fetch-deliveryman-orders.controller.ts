@@ -2,6 +2,7 @@ import { Controller, Get, HttpCode, NotFoundException } from '@nestjs/common'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { FetchDeliverymanOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-delivery-personnel-orders'
+import { OrderPresenter } from '../presenters/order-presenter'
 
 @Controller('/deliveryman/orders')
 export class FetchDeliverymanOrdersController {
@@ -22,8 +23,12 @@ export class FetchDeliverymanOrdersController {
       throw new NotFoundException(result.value.message)
     }
 
+    const orders = result.value.orders.map((order) => {
+      return OrderPresenter.toHTTP(order)
+    })
+
     return {
-      orders: result.value.orders,
+      orders,
     }
   }
 }

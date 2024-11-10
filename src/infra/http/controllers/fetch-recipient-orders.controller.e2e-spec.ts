@@ -89,11 +89,11 @@ describe('Fetch Recipient Orders (E2E)', () => {
     }))
 
     const responseOrders = response.body.orders.map((order) => ({
-      id: order._id.value,
-      recipientId: order.props.recipientId.value,
-      status: order.props.status,
-      totalInCents: order.props.totalInCents,
-      createdAt: order.props.createdAt,
+      id: order.id,
+      recipientId: order.recipientId,
+      status: order.status,
+      totalInCents: order.totalInCents,
+      createdAt: order.createdAt,
     }))
 
     expect(responseOrders).toEqual(expect.arrayContaining(expectedOrders))

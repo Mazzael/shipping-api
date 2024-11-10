@@ -4,6 +4,7 @@ import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { FetchNearbyOrdersUseCase } from '@/domain/shipping/application/use-cases/fetch-nearby-orders'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { OrderPresenter } from '../presenters/order-presenter'
 
 const fetchNearbyOrdersBodySchema = z.object({
   deliverymanLatitude: z.number(),
@@ -31,8 +32,16 @@ export class FetchNearbyOrdersController {
       deliverymanLongitude,
     })
 
+    if (result.isLeft()) {
+      return
+    }
+
+    const orders = result.value.orders.map((order) => {
+      return OrderPresenter.toHTTP(order)
+    })
+
     return {
-      orders: result.value?.orders,
+      orders,
     }
   }
 }

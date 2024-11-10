@@ -13,6 +13,7 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { Roles } from '@/infra/auth/roles'
 import { JwtRoleGuard } from '@/infra/auth/jwt-role-guard'
+import { OrderPresenter } from '../presenters/order-presenter'
 
 const fetchRecipientOrdersBodySchema = z.object({
   recipientId: z.string(),
@@ -48,8 +49,12 @@ export class FetchRecipientOrdersController {
       throw new NotFoundException(result.value.message)
     }
 
+    const orders = result.value.orders.map((order) => {
+      return OrderPresenter.toHTTP(order)
+    })
+
     return {
-      orders: result.value.orders,
+      orders,
     }
   }
 }

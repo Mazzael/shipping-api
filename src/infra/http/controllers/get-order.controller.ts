@@ -6,6 +6,7 @@ import {
   Param,
 } from '@nestjs/common'
 import { GetOrderUseCase } from '@/domain/shipping/application/use-cases/get-order'
+import { OrderPresenter } from '../presenters/order-presenter'
 
 @Controller('/order/:id')
 export class GetOrderController {
@@ -23,7 +24,7 @@ export class GetOrderController {
     }
 
     return {
-      order: result.value.order,
+      order: OrderPresenter.toHTTP(result.value.order),
     }
   }
 }

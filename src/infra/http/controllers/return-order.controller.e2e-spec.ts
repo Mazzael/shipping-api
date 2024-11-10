@@ -57,8 +57,8 @@ describe('Return Order (E2E)', () => {
 
     expect(response.body).toEqual({
       order: expect.objectContaining({
+        id: order.id.toString(),
         deliverymanId: deliveryman.id.toString(),
-        orderId: order.id.toString(),
         totalInCents: order.totalInCents,
         status: 'RETURNED',
       }),

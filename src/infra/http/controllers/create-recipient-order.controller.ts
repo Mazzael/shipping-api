@@ -13,6 +13,7 @@ import { JwtRoleGuard } from '@/infra/auth/jwt-role-guard'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { OrderPresenter } from '../presenters/order-presenter'
 
 const orderItemSchema = z.object({
   id: z.string(),
@@ -62,7 +63,7 @@ export class CreateRecipientOrderController {
     }
 
     return {
-      order: result.value.order,
+      order: OrderPresenter.toHTTP(result.value.order),
     }
   }
 }

@@ -47,8 +47,6 @@ describe('Get Deliveryman (E2E)', () => {
     const expectedDeliveryman = {
       id: deliveryman.id.toString(),
       name: deliveryman.name,
-      cpf: deliveryman.cpf,
-      password: deliveryman.password,
       createdAt: deliveryman.createdAt.toISOString(),
       updatedAt: deliveryman.updatedAt
         ? deliveryman.updatedAt.toISOString()
@@ -56,12 +54,10 @@ describe('Get Deliveryman (E2E)', () => {
     }
 
     const responseDeliveryman = {
-      id: response.body.deliveryman._id.value,
-      name: response.body.deliveryman.props.name,
-      cpf: response.body.deliveryman.props.cpf,
-      password: response.body.deliveryman.props.password,
-      createdAt: response.body.deliveryman.props.createdAt,
-      updatedAt: response.body.deliveryman.props.updatedAt,
+      id: response.body.deliveryman.id,
+      name: response.body.deliveryman.name,
+      createdAt: response.body.deliveryman.createdAt,
+      updatedAt: response.body.deliveryman.updatedAt,
     }
 
     expect(responseDeliveryman).toEqual(expectedDeliveryman)

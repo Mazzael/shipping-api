@@ -9,6 +9,7 @@ import {
 import { Roles } from '@/infra/auth/roles'
 import { JwtRoleGuard } from '@/infra/auth/jwt-role-guard'
 import { GetRecipientUseCase } from '@/domain/shipping/application/use-cases/get-recipient'
+import { RecipientPresenter } from '../presenters/recipient-presenter'
 
 @Controller('/recipient/:id')
 @Roles('admin')
@@ -28,7 +29,7 @@ export class GetRecipientController {
     }
 
     return {
-      recipient: result.value.recipient,
+      recipient: RecipientPresenter.toHTTP(result.value.recipient),
     }
   }
 }

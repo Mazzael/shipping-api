@@ -97,7 +97,7 @@ describe('Create Recipient Order (E2E)', () => {
 
     const orderOnDatabase = await prisma.order.findUnique({
       where: {
-        id: response.body.order._id.value,
+        id: response.body.order.id,
       },
     })
 

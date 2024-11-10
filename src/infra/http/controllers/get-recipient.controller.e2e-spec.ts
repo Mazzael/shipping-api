@@ -51,12 +51,10 @@ describe('Get Recipient (E2E)', () => {
 
     expect(response.body).toEqual({
       recipient: expect.objectContaining({
-        props: expect.objectContaining({
-          name: recipient.name,
-          email: recipient.email,
-          addressLatitude: recipient.addressLatitude,
-          addressLongitude: recipient.addressLongitude,
-        }),
+        name: recipient.name,
+        email: recipient.email,
+        addressLatitude: recipient.addressLatitude,
+        addressLongitude: recipient.addressLongitude,
       }),
     })
   })

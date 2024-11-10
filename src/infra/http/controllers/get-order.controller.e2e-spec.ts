@@ -64,11 +64,9 @@ describe('Get Order (E2E)', () => {
 
     expect(response.body).toEqual({
       order: expect.objectContaining({
-        props: expect.objectContaining({
-          totalInCents: orderToBeReturned.totalInCents,
-          status: orderToBeReturned.status,
-          createdAt: orderToBeReturned.createdAt.toISOString(), // Converte o `createdAt` para string
-        }),
+        totalInCents: orderToBeReturned.totalInCents,
+        status: orderToBeReturned.status,
+        createdAt: orderToBeReturned.createdAt.toISOString(),
       }),
     })
   })
